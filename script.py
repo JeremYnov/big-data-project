@@ -37,11 +37,9 @@ USDCrypto = []
 for column in columns : 
     splitedColumn = column.split('/')
     if splitedColumn[1] == 'USD':
-        USDCrypto.append(exchange.fetch_ticker(str(column)))
-            
+        # USDCrypto.append(exchange.fetch_ticker(str(column)))
+        producer.send('big-data-topic', value=exchange.fetch_ticker(str(column)))
 
-# dfCrypto = pd.DataFrame(USDCrypto)   
-# dfCrypto.head(1)
 print(type(USDCrypto))
-producer.send('big-data-topic', value=USDCrypto) 
+# producer.send('big-data-topic', value=USDCrypto) 
 sleep(1)

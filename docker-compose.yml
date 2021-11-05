@@ -1,7 +1,19 @@
 version: "3.2"
 services:
-  script:
-    build: .
+  data-producer:
+    build: 
+      dockerfile: crypto-data/Dockerfile
+    volumes:
+      - ./:/usr/src
+    networks:
+      - crypto-network
+    depends_on:
+      kafka:
+        condition: service_healthy
+
+  news-producer:
+    build: 
+      dockerfile: crypto-news/Dockerfile
     volumes:
       - ./:/usr/src
     networks:

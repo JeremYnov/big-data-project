@@ -12,7 +12,7 @@ producer = KafkaProducer(
 API_KEY = '4cb209d86481440649b653af92741b370037dbde'
 url = "https://cryptopanic.com/api/v1/posts/?auth_token={}".format(API_KEY)
 
-while True :   
+while True :
     try:
         page = requests.get(url)
         data = page.json()
@@ -20,4 +20,4 @@ while True :
         producer.send('crypto_news', news)
     except:
         print('error')
-    sleep(31)
+    sleep(1)

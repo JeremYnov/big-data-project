@@ -1,25 +1,10 @@
-from pymongo import MongoClient
+from config_bdd import symbol_db, news_db, crypto_db
 
 import ccxt 
 import pandas as pd
 from time import sleep 
 from json import dumps, loads
 
-# connexion à la bdd
-client = MongoClient('localhost', 27017)
-
-# connexion à la database
-database = client['big-data-project']
-
-# creation des collections
-collection_crypto = database['crypto']
-collection_news = database['news']
-collection_symbol = database['symbol']
-
-# recuperation des collections
-symbol_db = database.get_collection("symbol")
-news_db = database.get_collection("news")
-crypto_db = database.get_collection("crypto")
 # on recupere tous les symboles
 all_symbol = symbol_db.find({})
 # on transforme le type "cursor" en dict qu'on stockera dans ce dict, pour ne pas avoir de doublon dans les symboles

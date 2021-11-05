@@ -6,6 +6,9 @@ services:
       - ./:/usr/src
     networks:
       - crypto-network
+    depends_on:
+      kafka:
+        condition: service_healthy
 
   spark-master:
     image: bde2020/spark-master:2.2.2-hadoop2.7
@@ -52,6 +55,11 @@ services:
     ports:
       - 9092:9092
       - 30001:30001
+    healthcheck:
+      test: ["CMD", "bash", "-c", "unset", "JMX_PORT", ";", "/bin/kafka-topics.sh", "--zookeeper", "zookeeper:2181", "--list"]
+      interval: 20s
+      timeout: 10s
+      retries: 3
     environment:
       KAFKA_CREATE_TOPICS: crypto_raw,crypto_news
       KAFKA_BROKER_ID: 1

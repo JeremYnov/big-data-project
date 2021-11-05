@@ -14,14 +14,10 @@ binance = ccxt.binance()
 
 while True:
   try:
-    now = datetime.utcnow()
-    unixtime = calendar.timegm(now.utctimetuple())
-    since = (unixtime - 60*60) * 1000 # UTC timestamp in milliseconds
+    tickers = binance.fetch_tickers()
 
-    ohlcv = binance.fetch_ohlcv(symbol='BTC/USDT', timeframe='1m', since=since)
-
-    for x in ohlcv:
-      producer.send('crypto_raw', {"timestamp": since, "data": x})
+    for ticker in tickers.values():
+      producer.send('crypto_raw', ticker)
   except:
     print('ooops')
 

@@ -1,8 +1,11 @@
----
 version: "3.2"
 services:
   script:
     build: .
+    volumes:
+      - ./:/usr/src
+    networks:
+      - crypto-network
 
   spark-master:
     image: bde2020/spark-master:2.2.2-hadoop2.7
@@ -63,4 +66,3 @@ services:
 networks:
   crypto-network:
     driver: "bridge"
-

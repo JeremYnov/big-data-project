@@ -1,5 +1,10 @@
 FROM python:3.8
 
+# create destination directory
+RUN mkdir -p /usr/src
+WORKDIR /usr/src
+
+# copy files
 COPY test.py ./
 COPY requirements.txt ./
 

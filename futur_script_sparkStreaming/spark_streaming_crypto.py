@@ -33,18 +33,28 @@ while True :
         if splitedColumn[1] == 'USD':
             ##################################### A UTILISER POUR LE CONSUMER
             crypto = exchange.fetch_ticker(str(column)) # Variable qu'on recupere du producer
-            symbol_db.update(all_symbol_dict, {"name": crypto["symbol"]}, upsert = True) # INSERE LES SYMBOLS SANS DOUBLON
+            # variable qui change si le symbol de la crypto est déjà dans la table symbol
+            already = False
+            # on boucle sur tous les symbols enn base et on verifie si le symbol est déjà dans la base
+            for symbol in symbol_db.find({}):
+                if symbol["name"] == crypto["symbol"]:
+                    already = True
+            # si il n'es pas dans la base on l'ajoute en base
+            if not already :
+                symbol_db.insert_one({"name": crypto["symbol"]})
+
             symbol = symbol_db.find_one({"name": crypto["symbol"]}) # recuperation du symbol crypto ex (BTC/USD)
-            crypto_db.insert_one({"timestamp": crypto["timestamp"], "price": crypto["last"], "symbol": symbol["_id"]}) #INSERTION CRYPTO
+            crypto_db.insert_one({"date_time": crypto["datetime"], "price": crypto["last"], "symbol": symbol["_id"]}) #INSERTION CRYPTO
             ########################################
-            
-            
+
     sleep(5)
 
 # RECUPERATION DONNE D'UNE CRYPTO
 # btc = symbol_db.find_one({"name": "ETH/USD"})
 # print(btc)
-# for name in crypto_db.find({"symbol" : btc["_id"]}) :
+# for name in symbol_db.find({}) :
 #     print(name)
+
+
 
 

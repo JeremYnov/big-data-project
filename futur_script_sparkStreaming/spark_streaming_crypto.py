@@ -5,21 +5,6 @@ import pandas as pd
 from time import sleep 
 from json import dumps, loads
 
-# on recupere tous les symboles
-all_symbol = symbol_db.find({})
-# on transforme le type "cursor" en dict qu'on stockera dans ce dict, pour ne pas avoir de doublon dans les symboles
-all_symbol_dict = {}
-# on ajoute au dict chaque name de crypto que contient la base pour eviter les doublons
-for symbol in all_symbol :
-    name = {"name": symbol["name"]}
-    all_symbol_dict.update(name)
-    
-# for name in all_symbol.distinct('name') :
-#     print(name)
-
-# for name in crypto_db.find() :
-#     print(name)
-
 while True : 
     exchange = ccxt.binanceus()
     markets = exchange.load_markets()
@@ -46,13 +31,16 @@ while True :
             symbol = symbol_db.find_one({"name": crypto["symbol"]}) # recuperation du symbol crypto ex (BTC/USD)
             crypto_db.insert_one({"date_time": crypto["datetime"], "price": crypto["last"], "symbol": symbol["_id"]}) #INSERTION CRYPTO
             ########################################
+            print("symbol")
 
     sleep(5)
+    print("")
+
 
 # RECUPERATION DONNE D'UNE CRYPTO
 # btc = symbol_db.find_one({"name": "ETH/USD"})
 # print(btc)
-# for name in symbol_db.find({}) :
+# for name in symbol_db.find() :
 #     print(name)
 
 

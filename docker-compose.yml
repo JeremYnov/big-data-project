@@ -1,7 +1,7 @@
 version: "3.2"
 services:
   data-producer:
-    build: 
+    build:
       dockerfile: crypto-data/Dockerfile
     volumes:
       - ./:/usr/src
@@ -12,7 +12,7 @@ services:
         condition: service_healthy
 
   news-producer:
-    build: 
+    build:
       dockerfile: crypto-news/Dockerfile
     volumes:
       - ./:/usr/src
@@ -21,32 +21,6 @@ services:
     depends_on:
       kafka:
         condition: service_healthy
-
-  spark-master:
-    image: bde2020/spark-master:2.2.2-hadoop2.7
-    container_name: spark-master
-    networks:
-      - crypto-network
-    volumes:
-      - ./connectors:/connectors
-      - ./:/scripts/
-    ports:
-      - 8082:8080
-      - 7077:7077
-    environment:
-      - INIT_DAEMON_STEP=false
-
-  spark-worker-1:
-    image: bde2020/spark-worker:2.2.2-hadoop2.7
-    container_name: spark-worker-1
-    networks:
-      - crypto-network
-    depends_on:
-      - spark-master
-    ports:
-      - 8083:8081
-    environment:
-      - "SPARK_MASTER=spark://spark-master:7077"
 
   zookeeper:
     image: confluentinc/cp-zookeeper

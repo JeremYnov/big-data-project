@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 
 # connexion à la bdd
-client = MongoClient('localhost', 27017)
+client = MongoClient('mongodb://root:root@mongodb:27017')
 
 # connexion à la database
 database = client['big-data-project']

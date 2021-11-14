@@ -36,7 +36,7 @@ services:
     networks:
       - crypto-network
     ports:
-      - "8501:8501"
+      - 8501:8501
 
   mongodb:
     image: mongo

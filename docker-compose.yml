@@ -24,6 +24,34 @@ services:
     networks:
       - crypto-network
 
+  data-consumer:
+    container_name: data-consumer
+    command: python3 ./ccxt_consumer.py
+    build:
+      dockerfile: ../../Dockerfile
+      context: ./consumers/ccxt
+    depends_on:
+      - mongodb
+      - data-producer
+    volumes:
+      - ./consumers/ccxt:/usr/src
+    networks:
+      - crypto-network
+
+  news-consumer:
+    container_name: news-consumer
+    command: python3 ./news_consumer.py
+    build:
+      dockerfile: ../../Dockerfile
+      context: ./consumers/news
+    depends_on:
+      - mongodb
+      - news-producer
+    volumes:
+      - ./consumers/news:/usr/src
+    networks:
+      - crypto-network
+
   streamlit:
     container_name: streamlit
     build:

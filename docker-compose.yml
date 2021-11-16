@@ -10,7 +10,8 @@ services:
       kafka:
         condition: service_healthy
     networks:
-      - crypto-network
+      - producer-network
+      - kafka-network
 
   news-producer:
     container_name: news-producer
@@ -22,7 +23,8 @@ services:
       kafka:
         condition: service_healthy
     networks:
-      - crypto-network
+      - producer-network
+      - kafka-network
 
   data-consumer:
     container_name: data-consumer
@@ -36,7 +38,8 @@ services:
     volumes:
       - ./consumers/ccxt:/usr/src
     networks:
-      - crypto-network
+      - kafka-network
+      - database-network
 
   news-consumer:
     container_name: news-consumer
@@ -50,7 +53,8 @@ services:
     volumes:
       - ./consumers/news:/usr/src
     networks:
-      - crypto-network
+      - kafka-network
+      - database-network
 
   streamlit:
     container_name: streamlit
@@ -62,7 +66,7 @@ services:
       - data-producer
       - news-producer
     networks:
-      - crypto-network
+      - database-network
     ports:
       - 8501:8501
 
@@ -82,7 +86,7 @@ services:
     volumes:
       - ./streamlit/data/db:/data/db
     networks:
-      - crypto-network
+      - database-network
 
   zookeeper:
     image: confluentinc/cp-zookeeper
@@ -91,7 +95,7 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
     networks:
-      - crypto-network
+      - kafka-network
 
   kafka:
     image: confluentinc/cp-kafka
@@ -114,11 +118,18 @@ services:
       timeout: 10s
       retries: 3
     networks:
-      - crypto-network
+      - kafka-network
     ports:
+      - 29092:29092
       - 9092:9092
       - 30001:30001
 
 networks:
-  crypto-network:
+  kafka-network:
+    driver: "bridge"
+  producer-network:
+    driver: "bridge"
+  consumer-network:
+    driver: "bridge"
+  database-network:
     driver: "bridge"

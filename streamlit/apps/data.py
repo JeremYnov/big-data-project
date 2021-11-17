@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import streamlit_wordcloud as wordcloud
 from pymongo import MongoClient
-from time import sleep
+
 # from sklearn import datasets
 
 def app():

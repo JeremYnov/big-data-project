@@ -12,8 +12,6 @@ def app():
     database = client['big-data-project']
     crypto_db = database.get_collection("crypto")
     symbol_db = database.get_collection("symbol")
-    for c in crypto_db.find():
-        print(c)
 
     st.title('Prix crypto')
 
@@ -52,7 +50,6 @@ def df_chart(symbol_db, crypto_db, crypto):
     crypto_symbol = crypto_db.find({"symbol": symbol["_id"]}, {"_id": 0, "symbol": 0})
 
     df = pd.DataFrame(crypto_symbol)
-    print(df)
     df["date_time"] = df["date_time"].str.replace('T',' ').str.replace('Z','')
 
     df = df.rename(columns={'date_time':'index'}).set_index('index')

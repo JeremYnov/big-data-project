@@ -22,10 +22,6 @@ def app():
     
     st.title('Crypto-News')
 
-    st.write("This is the `Data` page of the multi-page app.")
-
-    st.write("The following is the DataFrame of the `iris` dataset.")
-
     # iris = datasets.load_iris()
     # X = pd.DataFrame(iris.data, columns = iris.feature_names)
     # Y = pd.Series(iris.target, name = 'class')

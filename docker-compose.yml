@@ -2,28 +2,30 @@ version: "3.2"
 services:
   data-producer:
     container_name: data-producer
+    command: python3 ./ccxt_producer.py
     build:
-      dockerfile: crypto-data/Dockerfile
+      dockerfile: ../Dockerfile
+      context: ./crypto-data
     volumes:
-      - ./:/usr/src
+      - ./crypto-data:/usr/src
     depends_on:
       kafka:
         condition: service_healthy
     networks:
-      - producer-network
       - kafka-network
 
   news-producer:
     container_name: news-producer
+    command: python3 ./news_producer.py
     build:
-      dockerfile: crypto-news/Dockerfile
+      dockerfile: ../Dockerfile
+      context: ./crypto-news
     volumes:
-      - ./:/usr/src
+      - ./crypto-news/:/usr/src
     depends_on:
       kafka:
         condition: service_healthy
     networks:
-      - producer-network
       - kafka-network
 
   data-consumer:
@@ -58,7 +60,9 @@ services:
 
   streamlit:
     container_name: streamlit
+    command: streamlit run app.py
     build:
+      dockerfile: ../Dockerfile
       context: ./streamlit
     volumes:
       - ./streamlit:/usr/src
@@ -126,10 +130,6 @@ services:
 
 networks:
   kafka-network:
-    driver: "bridge"
-  producer-network:
-    driver: "bridge"
-  consumer-network:
     driver: "bridge"
   database-network:
     driver: "bridge"

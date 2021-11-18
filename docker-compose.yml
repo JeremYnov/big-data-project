@@ -1,7 +1,7 @@
 version: "3.2"
 services:
   ccxt-producer:
-    container_name: cctx-producer
+    container_name: ccxt-producer
     restart: on-failure
     command: python3 ./ccxt_producer.py
     build:
@@ -32,7 +32,7 @@ services:
     networks:
       - kafka-network
 
-  cctx-consumer:
+  ccxt-consumer:
     container_name: ccxt-consumer
     restart: on-failure
     command: python3 ./ccxt_consumer.py

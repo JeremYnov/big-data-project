@@ -2,13 +2,13 @@ import streamlit as st
 from pymongo import MongoClient
 import pandas as pd
 from datetime import datetime
-from time import sleep 
+from time import sleep
 from bson.code import Code
 
 
 def app():
     # connexion à la bdd
-    client = MongoClient('localhost', 27017)
+    client = MongoClient('mongodb://root:root@mongodb', 27017)
     # connexion à la database
     database = client['big-data-project']
     news_db = database.get_collection("news")
@@ -28,7 +28,7 @@ def app():
     #     "  }"
     #     "  return total;"
     #     "}")
-    
+
     # result_count = news_db.map_reduce(map, reduce, "count")
     # result_n_count = format_df(result_count, symbol_db)
 
@@ -36,14 +36,14 @@ def app():
     # map = Code("function () {"
     # "    emit(this.symbol, this.vote_positif);"
     # "}")
-    
+
     # result_like = news_db.map_reduce(map, reduce, "positif")
     # result_n_like = format_df(result_like, symbol_db)
 
     # map = Code("function () {"
     # "    emit(this.symbol, this.vote_negatif);"
     # "}")
-    
+
     # result_dislike = news_db.map_reduce(map, reduce, "negatif")
     # result_n_dislike = format_df(result_dislike, symbol_db)
 
@@ -60,7 +60,7 @@ def app():
         table = st.dataframe(df_news(news_db, symbol_db))
         sleep(60)
         table.empty()
-    
+
 
 def df_news(news_db, symbol_db):
     """genere le df pour les stats sur les news"""
@@ -75,7 +75,7 @@ def df_news(news_db, symbol_db):
         "  }"
         "  return total;"
         "}")
-    
+
     result_count = news_db.map_reduce(map, reduce, "count")
     result_n_count = format_df(result_count, symbol_db)
 
@@ -83,14 +83,14 @@ def df_news(news_db, symbol_db):
     map = Code("function () {"
     "    emit(this.symbol, this.vote_positif);"
     "}")
-    
+
     result_like = news_db.map_reduce(map, reduce, "positif")
     result_n_like = format_df(result_like, symbol_db)
 
     map = Code("function () {"
     "    emit(this.symbol, this.vote_negatif);"
     "}")
-    
+
     result_dislike = news_db.map_reduce(map, reduce, "negatif")
     result_n_dislike = format_df(result_dislike, symbol_db)
 
@@ -111,9 +111,6 @@ def format_df(result, symbol_db) :
     result_n = []
     for r in result.find():
         name = symbol_db.find_one({"_id": r["_id"]})
-        result_n.append({"_id": name["name"], "value": r["value"]})  
+        result_n.append({"_id": name["name"], "value": r["value"]})
 
     return result_n
-
-
-    

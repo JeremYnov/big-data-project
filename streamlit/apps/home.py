@@ -39,7 +39,6 @@ def app():
         col2.metric("Plus Haut 24H", round(crypto_symbol[0]['high'], 2))
         col3.metric("Plus Bas 24H", round(crypto_symbol[0]['low'], 2))   
         col4.metric("Prix Moyen", round(crypto_symbol[0]['average'], 2))   
-        st.markdown(crypto_symbol[0])
         chart = st.line_chart(df_chart(symbol_db, crypto_db, dropdown))
         
         # met à jours le graph toutes les 5s

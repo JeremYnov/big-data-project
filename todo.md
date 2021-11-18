@@ -10,3 +10,4 @@
 - [ ] Fix network
 - [ ] Rewrite all requirements.txt
 - [ ] Refacto code
+- [ ] Mongo logs

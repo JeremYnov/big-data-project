@@ -105,4 +105,5 @@ def df_chart(symbol_db, crypto_db, dropdown):
 
 
     df = df_final.rename(columns={'date_time':'index'}).set_index('index')
-    return df
+    print(df)
+    return df.tail(10)

@@ -10,7 +10,7 @@ producer = KafkaProducer(
   value_serializer=lambda x: dumps(x).encode('utf-8')
 )
 
-binance = ccxt.binance()
+binance = ccxt.binanceus()
 
 while True:
   try:
@@ -21,7 +21,7 @@ while True:
   except:
     print('ooops')
 
-  sleep(1)
+  sleep(20)
 
 # df = pd.DataFrame(ohlcv, columns = ['Time', 'Open', 'High', 'Low', 'Close', 'Volume'])
 # df['Time'] = [datetime.fromtimestamp(float(time)/1000) for time in df['Time']]

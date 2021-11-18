@@ -1,16 +1,19 @@
-import pandas as pd
-from time import sleep
+import os
+import requests
+from dotenv import load_dotenv
 from json import dumps
 from kafka import KafkaProducer
-import requests
+from time import sleep
+
+load_dotenv()
 
 producer = KafkaProducer(
-    bootstrap_servers='kafka:29092',
+    bootstrap_servers=os.getenv('KAFKA_BOOTSTRAP_SERVER'),
     value_serializer=lambda x: dumps(x).encode('utf-8')
 )
 
-API_KEY = '4cb209d86481440649b653af92741b370037dbde'
-url = "https://cryptopanic.com/api/v1/posts/?auth_token={}".format(API_KEY)
+url = "{url}?auth_token={token}".format(url=os.getenv('CRYPTO_PANIC_API_URL'),
+                                        token=os.getenv('CRYPTO_PANIC_API_KEY'))
 
 while True :
     try:

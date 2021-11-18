@@ -8,7 +8,6 @@ st.markdown("""
 # Big-Data Crypto
 """)
 
-
 app.add_app("Prix Crypto", home.app)
 app.add_app("Wordcloud", wordcloud.app)
 app.add_app("Comparaison crypto", compare_crypto.app)

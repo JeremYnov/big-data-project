@@ -11,3 +11,4 @@
 - [ ] Rewrite all requirements.txt
 - [ ] Refacto code
 - [ ] Mongo logs
+- [ ] Git ignore

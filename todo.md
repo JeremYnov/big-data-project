@@ -10,5 +10,4 @@
 - [x] Rewrite all requirements.txt
 - [x] Refacto code
 - [x] Git ignore
-- [ ] Mongo logs
 - [ ] Fix network

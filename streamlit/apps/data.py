@@ -7,12 +7,16 @@ from pymongo import MongoClient
 # from sklearn import datasets
 
 def app():
-    # connexion à la bdd
+    # Connexion à la bdd
     client = MongoClient('localhost', 27017)
-    # connexion à la database
+    
+    # Connexion à la database
     database = client['big-data-project']
+    
+    # Connexion aux collections
     news_db = database.get_collection("news")
     symbol_db = database.get_collection("symbol")
+    
     
     symbols = symbol_db.find({},{'_id': 0, 'name': 1}).sort("name")
     list_symbols = []

@@ -5,9 +5,9 @@
 - [x] Clear unused files
 - [x] Add consumers to docker-compose
 - [x] Regroup folders
-- [ ] Remove "futur_script_sparkStreaming" folder
+- [x] Remove "futur_script_sparkStreaming" folder
 - [x] Fix volume Mongo
+- [x] Rewrite all requirements.txt
+- [x] Refacto code
+- [x] Git ignore
 - [ ] Fix network
-- [ ] Rewrite all requirements.txt
-- [ ] Refacto code
-- [ ] Mongo logs

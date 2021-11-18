@@ -2,6 +2,7 @@
 connectors
 venv
 __pycache__
+.env
 
 # Mongo volume
 data

@@ -1,2 +1,7 @@
+# Dev files
+connectors
 venv
 __pycache__
+
+# Mongo volume
+data

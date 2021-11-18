@@ -2,12 +2,13 @@ import streamlit as st
 from pymongo import MongoClient
 import pandas as pd
 from datetime import datetime
-from time import sleep 
+from time import sleep
+import altair as alt
 
 
 def app():
     # connexion à la bdd
-    client = MongoClient('localhost', 27017)
+    client = MongoClient('mongodb://root:root@mongodb:27017')
     # connexion à la database
     database = client['big-data-project']
     crypto_db = database.get_collection("crypto")
@@ -25,6 +26,10 @@ def app():
     # recupére la valeur selectionner dans le selectbox -> BTC/USD par exemple
     dropdown = st.selectbox("choisis une crypto", list_symbols)
 
+    alt.Chart(df_chart(symbol_db, crypto_db, dropdown)).mark_bar().encode(
+    x=alt.X('index:Q', axis=alt.Axis(tickCount=20, grid=False)),
+    y=alt.Y('price:Q'))
+
     # si il y'a une valeur alors on affiche les données de la crypto en continu
     if dropdown :       
         chart = st.line_chart(df_chart(symbol_db, crypto_db, dropdown))
@@ -32,6 +37,9 @@ def app():
         while True :
             chart.add_rows(df_chart(symbol_db, crypto_db, dropdown))
             sleep(5)
+    
+    
+
 
 
 
@@ -53,4 +61,5 @@ def df_chart(symbol_db, crypto_db, crypto):
     df["date_time"] = df["date_time"].str.replace('T',' ').str.replace('Z','')
 
     df = df.rename(columns={'date_time':'index'}).set_index('index')
-    return df
+    return df.tail(10)
+

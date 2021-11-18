@@ -9,6 +9,7 @@ services:
       context: ./ccxt/producer
     volumes:
       - ./ccxt/producer:/usr/src
+      - .env:/usr/src/.env
     depends_on:
       kafka:
         condition: service_healthy
@@ -23,7 +24,8 @@ services:
       dockerfile: ../../Dockerfile
       context: ./news/producer
     volumes:
-      - ./news/producer/:/usr/src
+      - ./news/producer:/usr/src
+      - .env:/usr/src/.env
     depends_on:
       kafka:
         condition: service_healthy
@@ -41,7 +43,8 @@ services:
       - mongodb
       - ccxt-producer
     volumes:
-      - ./ccxt/consumer/:/usr/src
+      - ./ccxt/consumer:/usr/src
+      - .env:/usr/src/.env
     networks:
       - kafka-network
       - database-network
@@ -57,7 +60,8 @@ services:
       - mongodb
       - news-producer
     volumes:
-      - ./news/consumer/:/usr/src
+      - ./news/consumer:/usr/src
+      - .env:/usr/src/.env
     networks:
       - kafka-network
       - database-network

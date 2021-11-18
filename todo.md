@@ -4,9 +4,9 @@
 - [x] Add python image to docker-compose
 - [x] Clear unused files
 - [x] Add consumers to docker-compose
-- [ ] Regroup folders
+- [x] Regroup folders
 - [ ] Remove "futur_script_sparkStreaming" folder
-- [ ] Fix volume Mongo
+- [x] Fix volume Mongo
 - [ ] Fix network
 - [ ] Rewrite all requirements.txt
 - [ ] Refacto code

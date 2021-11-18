@@ -34,14 +34,11 @@ def app():
         crypto_symbol = symbol_db.find_one({"name": symbol})
         crypto_news_count = news_db.find({"symbol": crypto_symbol["_id"]})
 
-        print(crypto_symbol)
-        print(crypto_news_count.count())
         crypto_news.append(dict(text=symbol, value=crypto_news_count.count(), color="#b5de2b", symbol=symbol))
         # sleep(5)
     # for name in news_db.find({"symbol": btc["_id"]}) :
     #     print(name)
 
-    print(crypto_news)
     return_obj = wordcloud.visualize(crypto_news, tooltip_data_fields={
         'text':'Nom', 'value':'Mentions', 'symbol':'Symbol'
     }, per_word_coloring=False)

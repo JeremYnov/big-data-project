@@ -31,17 +31,21 @@ def app():
     y=alt.Y('price:Q'))
 
     # si il y'a une valeur alors on affiche les données de la crypto en continu
-    if dropdown :       
+    if dropdown :    
+        col1, col2, col3, col4 = st.columns(4)
+        symbol = symbol_db.find_one({"name": dropdown})
+        crypto_symbol = crypto_db.find({"symbol": symbol["_id"]}, {"_id": 0, "symbol": 0})
+        col1.metric("Prix Actuel", round(crypto_symbol[0]['price'], 2))
+        col2.metric("Plus Haut 24H", round(crypto_symbol[0]['high'], 2))
+        col3.metric("Plus Bas 24H", round(crypto_symbol[0]['low'], 2))   
+        col4.metric("Prix Moyen", round(crypto_symbol[0]['average'], 2))   
+        st.markdown(crypto_symbol[0])
         chart = st.line_chart(df_chart(symbol_db, crypto_db, dropdown))
+        
         # met à jours le graph toutes les 5s
         while True :
             chart.add_rows(df_chart(symbol_db, crypto_db, dropdown))
             sleep(5)
-    
-    
-
-
-
 
 
 def df_chart(symbol_db, crypto_db, crypto):

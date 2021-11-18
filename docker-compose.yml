@@ -1,13 +1,14 @@
 version: "3.2"
 services:
-  data-producer:
-    container_name: data-producer
+  ccxt-producer:
+    container_name: cctx-producer
+    restart: on-failure
     command: python3 ./ccxt_producer.py
     build:
-      dockerfile: ../Dockerfile
-      context: ./crypto-data
+      dockerfile: ../../Dockerfile
+      context: ./ccxt/producer
     volumes:
-      - ./crypto-data:/usr/src
+      - ./ccxt/producer:/usr/src
     depends_on:
       kafka:
         condition: service_healthy
@@ -16,44 +17,47 @@ services:
 
   news-producer:
     container_name: news-producer
+    restart: on-failure
     command: python3 ./news_producer.py
     build:
-      dockerfile: ../Dockerfile
-      context: ./crypto-news
+      dockerfile: ../../Dockerfile
+      context: ./news/producer
     volumes:
-      - ./crypto-news/:/usr/src
+      - ./news/producer/:/usr/src
     depends_on:
       kafka:
         condition: service_healthy
     networks:
       - kafka-network
 
-  data-consumer:
-    container_name: data-consumer
+  cctx-consumer:
+    container_name: ccxt-consumer
+    restart: on-failure
     command: python3 ./ccxt_consumer.py
     build:
       dockerfile: ../../Dockerfile
-      context: ./consumers/ccxt
+      context: ./ccxt/consumer
     depends_on:
       - mongodb
-      - data-producer
+      - ccxt-producer
     volumes:
-      - ./consumers/ccxt:/usr/src
+      - ./ccxt/consumer/:/usr/src
     networks:
       - kafka-network
       - database-network
 
   news-consumer:
     container_name: news-consumer
+    restart: on-failure
     command: python3 ./news_consumer.py
     build:
       dockerfile: ../../Dockerfile
-      context: ./consumers/news
+      context: ./news/consumer
     depends_on:
       - mongodb
       - news-producer
     volumes:
-      - ./consumers/news:/usr/src
+      - ./news/consumer/:/usr/src
     networks:
       - kafka-network
       - database-network
@@ -67,7 +71,7 @@ services:
     volumes:
       - ./streamlit:/usr/src
     depends_on:
-      - data-producer
+      - ccxt-producer
       - news-producer
     networks:
       - database-network

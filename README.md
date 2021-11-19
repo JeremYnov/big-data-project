@@ -1,17 +1,28 @@
 # big-data-project
 
+## Premier lancement du projet
+
 ```bash
+# Créer le .env (linux)
+cp .env-example .env
+
+# Build l'image python
+docker-compose build script
+
 # Start l'env
 docker-compose up
 ```
 
-```bash
-# Build l'image python
-docker-compose build script
-```
+## Éteindre entièrement les containers 
 
 ```bash
-# Run séparément le script python
-docker-compose stop script
-docker-compose start script
+# Éteindre l'env
+docker-compose down
+```
+
+## Relancer le projet (si il a déjà été build)
+
+```bash
+# Start l'env
+docker-compose up
 ```

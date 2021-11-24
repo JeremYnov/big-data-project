@@ -7,7 +7,7 @@
 cp .env-example .env
 
 # Build l'image python
-docker-compose build script
+docker-compose build
 
 # Start l'env
 docker-compose up
